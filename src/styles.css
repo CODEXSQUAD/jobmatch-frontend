@@ -1,0 +1,5 @@
+.brand-dot { color: #789644; }
+.skip-link { position: absolute; left: 16px; top: -100px; z-index: 10; padding: 12px 18px; background: white; color: #174e44; }
+.skip-link:focus { top: 8px; }
+:focus-visible { outline: 3px solid #799449; outline-offset: 3px; }
+body { min-width: 320px; }
