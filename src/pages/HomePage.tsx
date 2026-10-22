@@ -17,17 +17,17 @@ export function HomePage() {
       </Box>
       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 2.5 }}>
         {[
-          ['Для соискателя', 'Находите вакансии, отправляйте резюме и следите за решением работодателя.'],
-          ['Для работодателя', 'Публикуйте вакансии, знакомьтесь с кандидатами и принимайте решения по откликам.'],
+          ['Для соискателя', 'Создавайте резюме, находите вакансии, отправляйте отклики и следите за решением работодателя.'],
+          ['Для работодателя', 'Оформляйте компанию, публикуйте вакансии, просматривайте резюме и принимайте решения по откликам.'],
         ].map(([title, description]) => (
           <Paper key={title} variant="outlined" sx={{ p: { xs: 3, md: 4 } }}>
-            <Typography variant="overline" color="text.secondary">В планах MVP</Typography>
+            <Typography variant="overline" color="text.secondary">Возможности MVP</Typography>
             <Typography variant="h2" sx={{ mt: 1, mb: 1.5 }}>{title}</Typography>
             <Typography color="text.secondary">{description}</Typography>
           </Paper>
         ))}
       </Box>
-      <Typography variant="body2" color="text.secondary">Сейчас доступен каркас приложения и проверка связи с сервером. Пользовательские сценарии находятся в разработке.</Typography>
+      <Typography variant="body2" color="text.secondary">Демонстрационная версия использует вымышленные данные и бесплатный дневной лимит откликов.</Typography>
     </Stack>
   )
 }

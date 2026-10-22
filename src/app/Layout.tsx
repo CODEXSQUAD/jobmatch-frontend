@@ -1,5 +1,7 @@
 import { Box, Button, Chip, Container, Stack, Typography } from '@mui/material'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { NavLink, Outlet } from 'react-router'
+import { getCurrentUser, logout } from '../shared/api/auth'
 
 const links = [
   { to: '/', label: 'Главная' },
@@ -8,6 +10,18 @@ const links = [
 ]
 
 export function Layout() {
+  const queryClient = useQueryClient()
+  const currentUser = useQuery({
+    queryKey: ['current-user'],
+    queryFn: getCurrentUser,
+    retry: false,
+    staleTime: 30_000,
+  })
+  const signOut = useMutation({
+    mutationFn: logout,
+    onSuccess: () => queryClient.setQueryData(['current-user'], null),
+  })
+
   return (
     <Box sx={{ minHeight: '100dvh', display: 'flex', flexDirection: 'column' }}>
       <a className="skip-link" href="#main-content">Перейти к содержимому</a>
@@ -18,6 +32,23 @@ export function Layout() {
             {links.map(({ to, label }) => (
               <Button key={to} component={NavLink} to={to} end sx={{ '&.active': { bgcolor: '#eaf1eb' } }}>{label}</Button>
             ))}
+            {currentUser.data?.role === 'Candidate' && (
+              <>
+                <Button component={NavLink} to="/resume" sx={{ '&.active': { bgcolor: '#eaf1eb' } }}>Резюме</Button>
+                <Button component={NavLink} to="/applications" sx={{ '&.active': { bgcolor: '#eaf1eb' } }}>Мои отклики</Button>
+              </>
+            )}
+            {currentUser.data?.role === 'Employer' && (
+              <>
+                <Button component={NavLink} to="/company" sx={{ '&.active': { bgcolor: '#eaf1eb' } }}>Компания</Button>
+                <Button component={NavLink} to="/employer/vacancies" sx={{ '&.active': { bgcolor: '#eaf1eb' } }}>Мои вакансии</Button>
+              </>
+            )}
+            {currentUser.data ? (
+              <Button onClick={() => signOut.mutate()} disabled={signOut.isPending}>Выйти · {currentUser.data.email}</Button>
+            ) : (
+              <Button component={NavLink} to="/auth" sx={{ '&.active': { bgcolor: '#eaf1eb' } }}>Войти</Button>
+            )}
           </Stack>
         </Container>
       </Box>
@@ -26,7 +57,7 @@ export function Layout() {
       </Container>
       <Container component="footer" maxWidth="lg" sx={{ py: 3, borderTop: '1px solid #e0e6df', display: 'flex', gap: 2, alignItems: 'center', flexWrap: 'wrap' }}>
         <Typography variant="body2" color="text.secondary" sx={{ mr: 'auto' }}>JobMatch · Поиск работы с осознанным выбором</Typography>
-        <Chip label="Учебный MVP · Каркас" size="small" variant="outlined" />
+        <Chip label="Учебный MVP" size="small" variant="outlined" />
       </Container>
     </Box>
   )
