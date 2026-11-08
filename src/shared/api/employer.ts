@@ -24,5 +24,6 @@ export const getMyCompany = () => requestJson<Company>('/api/company/me', { cach
 export const saveMyCompany = (company: CompanyInput) => requestJson<Company>('/api/company/me', { method: 'PUT', body: JSON.stringify(company) })
 export const getEmployerVacancies = () => requestJson<Vacancy[]>('/api/employer/vacancies', { cache: 'no-store' })
 export const createVacancy = (vacancy: VacancyInput) => requestJson<Vacancy>('/api/employer/vacancies', { method: 'POST', body: JSON.stringify(vacancy) })
+export const updateVacancy = (id: string, vacancy: VacancyInput) => requestJson<Vacancy>(`/api/vacancies/${id}`, { method: 'PUT', body: JSON.stringify(vacancy) })
 export const publishVacancy = (id: string) => requestJson<Vacancy>(`/api/employer/vacancies/${id}/publish`, { method: 'POST' })
 export const closeVacancy = (id: string) => requestJson<Vacancy>(`/api/employer/vacancies/${id}/close`, { method: 'POST' })
